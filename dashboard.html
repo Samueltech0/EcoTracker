@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Benvenuto sulla pagina principale</h1>
+    {% if anomalie %}
+        <div class="anomalie">
+            <h2>Anomalie nei dati inseriti:</h2>
+            <ul>
+                {% for anomalia in anomalie %}
+                    <li>{{ anomalia }}</li>
+                {% endfor %}
+            </ul>
+            <p>Per favore, correggi le anomalie e riprova.</p>
+        </div>
+    {% endif %}
+
+
+    <h1>Crea un nuovo account</h1>
+    <form action="{{ url_for('reg') }}" method="POST">
+        <label for="tipo_account">Tipo di utilizzo:</label>
+        <select name="tipo_account" id="tipo_account">
+            <option value="Propria abitazione" selected>Propria abitazione</option>
+            <option value="Affitto">Affitto</option>
+        </select><br>
+        
+        <!-- Campi per i dati dell'abitazione -->
+        <label for="dimensioni_abitazione">Dimensioni abitazione (m²):</label>
+        <input type="number" name="dimensioni_abitazione" id="dimensioni_abitazione" step="0.01" required value="80"><br>
+        <label for="num_lampadine">Numero di lampadine:</label>
+        <input type="number" name="num_lampadine" id="num_lampadine" required value="6"><br>
+        
+        <!-- Campi per i dati personali -->
+        <label for="nome">Nome:</label>
+        <input type="text" name="nome" id="nome" required value="Samuel"><br>
+        <label for="cognome">Cognome:</label>
+        <input type="text" name="cognome" id="cognome" required value="Moreschi"><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required value="sam.mor1492@gmail.com"><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required value="••••"><br>
+        
+        <!-- Altri dettagli dell'abitazione -->
+        <label for="luogo_abitazione">Luogo di abitazione:</label>
+        <input type="text" name="luogo_abitazione" id="luogo_abitazione" required value="roma"><br>
+        <label for="gestore_energetico">Gestore energetico:</label>
+        <input type="text" name="gestore_energetico" id="gestore_energetico" required><br>
+        
+        <button type="submit">Crea account</button>
+    </form>
+
+    <script>
+        function aggiungiAppartamento() {
+            var numAppartamenti = document.getElementById('num_appartamenti').value;
+            var container = document.getElementById('appartamenti_fields');
+            container.innerHTML = ''; // Pulisci il container prima di aggiungere nuovi campi
+            for (var i = 0; i < numAppartamenti; i++) {
+                var div = document.createElement('div');
+                div.innerHTML = `
+                    <label for="dimensioni_appartamento${i+1}">Dimensioni appartamento ${i+1} (m²):</label>
+                    <input type="number" name="dimensioni_appartamento${i+1}" id="dimensioni_appartamento${i+1}" step="0.01" required><br>
+                    <label for="num_lampadine_appartamento${i+1}">Numero di lampadine appartamento ${i+1}:</label>
+                    <input type="number" name="num_lampadine_appartamento${i+1}" id="num_lampadine_appartamento${i+1}" required><br>
+                `;
+                container.appendChild(div);
+            }
+        }
+    </script>
+</body>
+</html>
